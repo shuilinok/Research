@@ -46,6 +46,10 @@
 		45A4E1A91EB046F0008024CE /* Switch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45A4E1A81EB046F0008024CE /* Switch.storyboard */; };
 		45A4E1AC1EB04710008024CE /* ASwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A4E1AB1EB04710008024CE /* ASwitchViewController.m */; };
 		45A4E1AF1EB04722008024CE /* BSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A4E1AE1EB04722008024CE /* BSwitchViewController.m */; };
+		45A941DB1F208332000270EA /* UserCourseList.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A941DA1F208332000270EA /* UserCourseList.m */; };
+		45A941DE1F209AC4000270EA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A941DD1F209AC4000270EA /* User.m */; };
+		45A941E21F209F6C000270EA /* CourseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A941E11F209F6C000270EA /* CourseInfo.m */; };
+		45A941E51F209FAC000270EA /* UserCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A941E41F209FAC000270EA /* UserCourse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -128,6 +132,14 @@
 		45A4E1AD1EB04722008024CE /* BSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSwitchViewController.h; sourceTree = "<group>"; };
 		45A4E1AE1EB04722008024CE /* BSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSwitchViewController.m; sourceTree = "<group>"; };
 		45A4E1B61EB055F4008024CE /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		45A941D91F208332000270EA /* UserCourseList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCourseList.h; sourceTree = "<group>"; };
+		45A941DA1F208332000270EA /* UserCourseList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCourseList.m; sourceTree = "<group>"; };
+		45A941DC1F209AC4000270EA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		45A941DD1F209AC4000270EA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		45A941E01F209F6C000270EA /* CourseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseInfo.h; sourceTree = "<group>"; };
+		45A941E11F209F6C000270EA /* CourseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseInfo.m; sourceTree = "<group>"; };
+		45A941E31F209FAC000270EA /* UserCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCourse.h; sourceTree = "<group>"; };
+		45A941E41F209FAC000270EA /* UserCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCourse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +217,7 @@
 		45A4E1371EB04473008024CE /* Imp */ = {
 			isa = PBXGroup;
 			children = (
+				45A941DF1F209F46000270EA /* Info */,
 				45A4E1381EB04473008024CE /* Animation */,
 				45A4E1391EB04473008024CE /* DBRequest */,
 				45A4E13A1EB04473008024CE /* FileRequest */,
@@ -244,6 +257,12 @@
 		45A4E13C1EB04473008024CE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				45A941DC1F209AC4000270EA /* User.h */,
+				45A941DD1F209AC4000270EA /* User.m */,
+				45A941E31F209FAC000270EA /* UserCourse.h */,
+				45A941E41F209FAC000270EA /* UserCourse.m */,
+				45A941D91F208332000270EA /* UserCourseList.h */,
+				45A941DA1F208332000270EA /* UserCourseList.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -403,6 +422,15 @@
 			path = SwitchViewController;
 			sourceTree = "<group>";
 		};
+		45A941DF1F209F46000270EA /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				45A941E01F209F6C000270EA /* CourseInfo.h */,
+				45A941E11F209F6C000270EA /* CourseInfo.m */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -477,13 +505,16 @@
 				45A4E1AC1EB04710008024CE /* ASwitchViewController.m in Sources */,
 				45A4E1871EB04473008024CE /* AFHTTPRequestOperation.m in Sources */,
 				45A4E19C1EB04473008024CE /* CharHelper.m in Sources */,
+				45A941DB1F208332000270EA /* UserCourseList.m in Sources */,
 				45A4E1941EB04473008024CE /* UIImageView+AFNetworking.m in Sources */,
 				45A4E1881EB04473008024CE /* AFHTTPRequestOperationManager.m in Sources */,
 				45A4E1951EB04473008024CE /* UIProgressView+AFNetworking.m in Sources */,
+				45A941E51F209FAC000270EA /* UserCourse.m in Sources */,
 				45A4E18A1EB04473008024CE /* AFNetworkReachabilityManager.m in Sources */,
 				45A4E18E1EB04473008024CE /* AFURLResponseSerialization.m in Sources */,
 				45A4E19E1EB04473008024CE /* DateHelper.m in Sources */,
 				45A4E1991EB04473008024CE /* MCProtocolCommand.m in Sources */,
+				45A941E21F209F6C000270EA /* CourseInfo.m in Sources */,
 				45A4E1A11EB04473008024CE /* StringHelper.m in Sources */,
 				45A4E1A21EB04473008024CE /* ViewHelper.m in Sources */,
 				45A4E18C1EB04473008024CE /* AFURLConnectionOperation.m in Sources */,
@@ -507,6 +538,7 @@
 				45A4E1901EB04473008024CE /* AFNetworkActivityIndicatorManager.m in Sources */,
 				45A4E18F1EB04473008024CE /* AFURLSessionManager.m in Sources */,
 				45A4E1241EB04422008024CE /* AppDelegate.m in Sources */,
+				45A941DE1F209AC4000270EA /* User.m in Sources */,
 				45A4E1211EB04422008024CE /* main.m in Sources */,
 				45A4E19B1EB04473008024CE /* ArrayHelper.m in Sources */,
 				45A4E1A01EB04473008024CE /* ObjectHandler.m in Sources */,
