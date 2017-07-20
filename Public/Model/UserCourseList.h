@@ -11,16 +11,8 @@
 
 //策略模式演示
 
-//具体加载过程交给策略类去做
-@interface UserCourseListLoadPolicy : NSObject
-
-//加载用户的课程列表，返回CourseInfo数组
-- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback;
-
-@end
-
-
 @class User;
+@class UserCourseListLoadPolicy;
 
 @interface UserCourseList : NSObject
 
@@ -33,3 +25,29 @@
 - (void)load:(ResultCallback)callback;
 
 @end
+
+
+//具体加载过程交给策略类去做
+@interface UserCourseListLoadPolicy : NSObject
+
+//加载用户的课程列表，返回CourseInfo数组
+- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback;
+
+@end
+
+
+@interface UserCourseListRemoteLoadPolicy : UserCourseListLoadPolicy
+
+@end
+
+
+@interface UserCourseListLocalLoadPolicy : UserCourseListLoadPolicy
+
+@end
+
+
+@interface UserCourseListLocalRemoteLoadPolicy : UserCourseListLoadPolicy
+
+@end
+
+

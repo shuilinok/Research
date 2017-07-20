@@ -9,16 +9,6 @@
 #import "UserCourseList.h"
 #import "User.h"
 
-@implementation UserCourseListLoadPolicy
-
-//加载用户的课程列表，返回CourseInfo数组
-- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
-{
-    //从服务端加载，或者从本地加载等；
-}
-
-@end
-
 
 @interface UserCourseList ()
 
@@ -69,3 +59,66 @@
 }
 
 @end
+
+
+
+@implementation UserCourseListLoadPolicy
+
+//加载用户的课程列表，返回CourseInfo数组
+- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
+{
+    //从服务端加载，或者从本地加载等；
+    callback(nil,nil);
+}
+
+@end
+
+
+@implementation UserCourseListRemoteLoadPolicy
+
+//加载用户的课程列表，返回CourseInfo数组
+- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
+{
+    //从服务端加载
+    callback(nil,nil);
+}
+
+@end
+
+
+@implementation UserCourseListLocalLoadPolicy
+
+//加载用户的课程列表，返回CourseInfo数组
+- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
+{
+    //从本地加载
+    callback(nil,nil);
+}
+
+@end
+
+
+@implementation UserCourseListLocalRemoteLoadPolicy
+
+//加载用户的课程列表，返回CourseInfo数组
+- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
+{
+    //先从本地加载
+    UserCourseListLocalLoadPolicy *policy = [[UserCourseListLocalLoadPolicy alloc] init];
+    [policy loadList:userID callback:^(id data, NSError *error) {
+        
+        callback(data,error);
+        
+        //再从服务端加载
+        UserCourseListRemoteLoadPolicy *policy = [[UserCourseListRemoteLoadPolicy alloc] init];
+        [policy loadList:userID callback:^(id data, NSError *error) {
+            
+            callback(data,error);
+        }];
+    }];
+}
+
+@end
+
+
+
