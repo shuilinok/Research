@@ -12,42 +12,41 @@
 //策略模式演示
 
 @class User;
-@class UserCourseListLoadPolicy;
 
 @interface UserCourseList : NSObject
 
 @property (weak, nonatomic) User *user;
 
-@property (strong, nonatomic) UserCourseListLoadPolicy *loadPolicy;
+@property (strong, nonatomic) MCAction *loadAction;
 
 - (void)setWithInfos:(NSArray *)infos;
 
-- (void)load:(ResultCallback)callback;
+@end
+
+
+
+@interface UserCourseListLoadAction : MCAction
+
+@property (weak, nonatomic) UserCourseList *list;
 
 @end
 
 
-//具体加载过程交给策略类去做
-@interface UserCourseListLoadPolicy : NSObject
 
-//加载用户的课程列表，返回CourseInfo数组
-- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback;
+@interface UserCourseListLocalLoadAction : MCAction
 
-@end
-
-
-@interface UserCourseListRemoteLoadPolicy : UserCourseListLoadPolicy
+@property (weak, nonatomic) UserCourseList *list;
 
 @end
 
 
-@interface UserCourseListLocalLoadPolicy : UserCourseListLoadPolicy
+
+@interface UserCourseListLocalRemoteLoadAction : MCAction
+
+@property (weak, nonatomic) UserCourseList *list;
 
 @end
 
 
-@interface UserCourseListLocalRemoteLoadPolicy : UserCourseListLoadPolicy
-
-@end
 
 

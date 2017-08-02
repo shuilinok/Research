@@ -27,6 +27,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    [self.list.loadAction run:^(NSError *error) {
+        
+        if(error.code == 700)
+        {
+            NSLog(@"手动取消");
+        }
+        else if(error.code == 800)
+        {
+            NSLog(@"更换行为取消");
+        }
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,4 +60,21 @@
 {
     [self.backCommand execute:1,self];
 }
+
+- (IBAction)clickFresh:(id)sender
+{
+    UserCourseListLoadAction *action = [[UserCourseListLoadAction alloc] init];
+    action.list = self.list;
+    self.list.loadAction = action;//更换行为会取消先前的行为
+    
+    [self.list.loadAction run:^(NSError *error) {
+        
+    }];
+}
+
+- (IBAction)clickCancelLoad:(id)sender
+{
+    [self.list.loadAction cancel:700];
+}
+
 @end

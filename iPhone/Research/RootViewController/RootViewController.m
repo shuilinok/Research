@@ -57,6 +57,11 @@
     BSwitchViewController *bController = [BSwitchViewController instance];
     bController.backCommand = [MCProtocolCommand command:self selector:@selector(BtoAProc:)];
     
+    UserCourseList *list = [[UserCourseList alloc] init];
+    UserCourseListLocalRemoteLoadAction *action = [[UserCourseListLocalRemoteLoadAction alloc] init];
+    action.list = list;
+    list.loadAction = action;
+    
     [aController.navigationController pushViewController:bController animated:YES];
     
     return nil;

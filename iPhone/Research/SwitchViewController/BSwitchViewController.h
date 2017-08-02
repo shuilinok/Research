@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserCourseList.h"
 
 @interface BSwitchViewController : UIViewController
 
 + (instancetype)instance;
 
 @property (strong, nonatomic) MCProtocolCommand *backCommand;
+
+@property (strong, nonatomic) UserCourseList *list;
 
 @end

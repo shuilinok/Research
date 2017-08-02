@@ -30,6 +30,19 @@
     return self;
 }
 
+- (void)setLoadAction:(MCAction *)loadAction
+{
+    if(loadAction == _loadAction)
+    {
+        return;
+    }
+    
+    //把原来的行为取消
+    [_loadAction cancel:800];
+    
+    _loadAction = loadAction;
+}
+
 - (void)setWithInfos:(NSArray *)infos
 {
     [self.courses removeAllObjects];
@@ -43,82 +56,73 @@
     }
 }
 
-- (void)load:(ResultCallback)callback
+@end
+
+
+
+@implementation UserCourseListLoadAction
+
+- (void)run:(ResultCallback)callback
 {
-    NSString *userID = self.user.userID;
+    self.callback = callback;
     
-    [self.loadPolicy loadList:userID callback:^(id data, NSError *error) {
-        
-        if(error.code == noErr)
+    //从服务端加载
+    //...
+    
+    [self callbackError:nil];
+}
+
+@end
+
+
+
+@implementation UserCourseListLocalLoadAction
+
+- (void)run:(ResultCallback)callback
+{
+    self.callback = callback;
+    
+    //从本地加载
+    //...
+    
+    [self callbackError:nil];
+}
+
+@end
+
+
+
+@implementation UserCourseListLocalRemoteLoadAction
+
+- (void)run:(ResultCallback)callback
+{
+    self.callback = callback;
+    
+    //先从本地加载
+    UserCourseListLocalLoadAction *action = [[UserCourseListLocalLoadAction alloc] init];
+    action.list = self.list;
+    
+    [action run:^(NSError *error) {
+       
+        if(self.bCancel)
         {
-            [self setWithInfos:data];
+            return;
         }
         
-        callback(error);
-    }];
-}
-
-@end
-
-
-
-@implementation UserCourseListLoadPolicy
-
-//加载用户的课程列表，返回CourseInfo数组
-- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
-{
-    //从服务端加载，或者从本地加载等；
-    callback(nil,nil);
-}
-
-@end
-
-
-@implementation UserCourseListRemoteLoadPolicy
-
-//加载用户的课程列表，返回CourseInfo数组
-- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
-{
-    //从服务端加载
-    callback(nil,nil);
-}
-
-@end
-
-
-@implementation UserCourseListLocalLoadPolicy
-
-//加载用户的课程列表，返回CourseInfo数组
-- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
-{
-    //从本地加载
-    callback(nil,nil);
-}
-
-@end
-
-
-@implementation UserCourseListLocalRemoteLoadPolicy
-
-//加载用户的课程列表，返回CourseInfo数组
-- (void)loadList:(NSString *)userID callback:(DataResultCallback)callback
-{
-    //先从本地加载
-    UserCourseListLocalLoadPolicy *policy = [[UserCourseListLocalLoadPolicy alloc] init];
-    [policy loadList:userID callback:^(id data, NSError *error) {
-        
-        callback(data,error);
-        
         //再从服务端加载
-        UserCourseListRemoteLoadPolicy *policy = [[UserCourseListRemoteLoadPolicy alloc] init];
-        [policy loadList:userID callback:^(id data, NSError *error) {
+        UserCourseListLoadAction *action = [[UserCourseListLoadAction alloc] init];
+        action.list = self.list;
+        
+        [action run:^(NSError *error) {
             
-            callback(data,error);
+            [self callbackError:error];
         }];
     }];
 }
 
 @end
+
+
 
 
 
