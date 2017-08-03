@@ -58,9 +58,11 @@
     bController.backCommand = [MCProtocolCommand command:self selector:@selector(BtoAProc:)];
     
     UserCourseList *list = [[UserCourseList alloc] init];
-    UserCourseListLocalRemoteLoadAction *action = [[UserCourseListLocalRemoteLoadAction alloc] init];
-    action.list = list;
-    list.loadAction = action;
+    UserCourseListActionFactory *factory = [[UserCourseListActionFactory alloc] init];
+    factory.list = list;
+    list.actionFactory = factory;
+    
+    bController.list = list;
     
     [aController.navigationController pushViewController:bController animated:YES];
     

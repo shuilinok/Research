@@ -26,7 +26,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
+    self.list.loadAction = [self.list.actionFactory createLoadAction];
+    
     [self.list.loadAction run:^(NSError *error) {
         
         if(error.code == 700)
@@ -63,9 +65,7 @@
 
 - (IBAction)clickFresh:(id)sender
 {
-    UserCourseListLoadAction *action = [[UserCourseListLoadAction alloc] init];
-    action.list = self.list;
-    self.list.loadAction = action;//更换行为会取消先前的行为
+    self.list.loadAction = [self.list.actionFactory createFreshAction];//更换行为会取消先前的行为
     
     [self.list.loadAction run:^(NSError *error) {
         

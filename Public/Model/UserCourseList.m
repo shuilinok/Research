@@ -59,7 +59,6 @@
 @end
 
 
-
 @implementation UserCourseListLoadAction
 
 - (void)run:(ResultCallback)callback
@@ -123,6 +122,26 @@
 @end
 
 
+@implementation UserCourseListActionFactory
 
+- (MCAction *)createLoadAction
+{
+    UserCourseListLocalRemoteLoadAction *action = [[UserCourseListLocalRemoteLoadAction alloc] init];
+    
+    action.list = self.list;
+    
+    return action;
+}
+
+- (MCAction *)createFreshAction
+{
+    UserCourseListLoadAction *action = [[UserCourseListLoadAction alloc] init];
+    
+    action.list = self.list;
+    
+    return action;
+}
+
+@end
 
 
