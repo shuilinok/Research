@@ -49,9 +49,9 @@
 {
     [self.loadAction cancel:800];//把原来的取消
     
-    self.loadAction = [MCActionCreator createAction:self.actionContext.loadActionName];
+    self.loadAction = [MCActionCreator createAction:self.paramContext.loadActionName];
     
-    [self.loadAction run:self.actionContext callback:^(NSError *error) {
+    [self.loadAction run:self callback:^(NSError *error) {
        
         callback(error);
     }];
@@ -93,7 +93,7 @@
     UserCourseList *list = context;
     
     //从服务端加载
-    list.actionContext.offset = 0;
+    list.paramContext.offset = 0;
     //...
     
     [self callbackError:nil];
@@ -111,7 +111,7 @@
     UserCourseList *list = context;
     
     //从本地加载
-    list.actionContext.offset = 0;
+    list.paramContext.offset = 0;
     //...
     
     [self callbackError:nil];
@@ -128,7 +128,7 @@
     self.callback = callback;
     UserCourseList *list = context;
     
-    list.actionContext.offset = 0;
+    list.paramContext.offset = 0;
     
     //先从本地加载
     UserCourseListLocalLoadAction *action = [[UserCourseListLocalLoadAction alloc] init];
@@ -161,12 +161,12 @@
     UserCourseList *list = context;
     
     //加载更多
-    NSUInteger offset = list.actionContext.offset;
-    NSUInteger limit = list.actionContext.limit;
+    NSUInteger offset = list.paramContext.offset;
+    NSUInteger limit = list.paramContext.limit;
     
     //...
     
-    list.actionContext.offset += limit;
+    list.paramContext.offset += limit;
     
     [self callbackError:nil];
 }
@@ -174,27 +174,7 @@
 @end
 
 
-
-@interface UserCourseListActionContext ()
-
-@end
-
-@implementation UserCourseListActionContext
-
-- (void)changeToReload
-{
-    self.loadActionName = self.reloadActionName;
-}
-
-- (void)changeToFresh
-{
-    self.loadActionName = self.freshActionName;
-}
-
-- (void)changeToMore
-{
-    self.loadActionName = self.moreActionName;
-}
+@implementation UserCourseListParamContext
 
 @end
 

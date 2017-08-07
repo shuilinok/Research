@@ -59,13 +59,13 @@
     
     UserCourseList *list = [[UserCourseList alloc] init];
     
-    UserCourseListActionContext *actionContext = [[UserCourseListActionContext alloc] init];
-    actionContext.reloadActionName = @"UserCourseListLocalRemoteLoadAction";
-    actionContext.freshActionName = @"UserCourseListLoadAction";
-    actionContext.moreActionName = @"UserCourseListLoadMoreAction";
-    actionContext.offset = 0;
-    actionContext.limit = 8;
-    list.actionContext = actionContext;
+    UserCourseListParamContext *paramContext = [[UserCourseListParamContext alloc] init];
+    paramContext.reloadActionName = @"UserCourseListLocalRemoteLoadAction";
+    paramContext.freshActionName = @"UserCourseListLoadAction";
+    paramContext.moreActionName = @"UserCourseListLoadMoreAction";
+    paramContext.offset = 0;
+    paramContext.limit = 8;
+    list.paramContext = paramContext;
     
     bController.list = list;
     

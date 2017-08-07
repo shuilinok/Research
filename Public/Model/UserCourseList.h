@@ -11,7 +11,7 @@
 
 @class User;
 
-@interface UserCourseListActionContext : NSObject
+@interface UserCourseListParamContext : NSObject
 
 @property (strong, nonatomic) NSString *loadActionName;
 
@@ -25,12 +25,6 @@
 
 @property (assign, nonatomic) NSUInteger limit;
 
-- (void)changeToReload;
-
-- (void)changeToFresh;
-
-- (void)changeToMore;
-
 @end
 
 
@@ -38,7 +32,7 @@
 
 @property (weak, nonatomic) User *user;
 
-@property (strong, nonatomic) UserCourseListActionContext *actionContext;
+@property (strong, nonatomic) UserCourseListParamContext *paramContext;
 
 - (void)setWithInfos:(NSArray *)infos;
 
