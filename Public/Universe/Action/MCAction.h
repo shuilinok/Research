@@ -20,7 +20,7 @@
 //运行，子类重写
 - (void)run:(id)context callback:(ResultCallback)callback;
 
-//取消运行，子类不要重写
+//取消运行，子类可重写
 - (void)cancel:(NSUInteger)code;
 
 //运行完后返回，外部不要调用，子类也不要重写
