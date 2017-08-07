@@ -11,12 +11,25 @@
 
 @class User;
 
-//行为工厂
-@protocol UserCourseListActionFactory <NSObject>
+@interface UserCourseListActionContext : NSObject
 
-- (MCAction *)createLoadAction;
+@property (strong, nonatomic) NSString *loadActionName;
 
-- (MCAction *)createFreshAction;
+@property (strong, nonatomic) NSString *reloadActionName;
+
+@property (strong, nonatomic) NSString *freshActionName;
+
+@property (strong, nonatomic) NSString *moreActionName;
+
+@property (assign, nonatomic) NSUInteger offset;
+
+@property (assign, nonatomic) NSUInteger limit;
+
+- (void)changeToReload;
+
+- (void)changeToFresh;
+
+- (void)changeToMore;
 
 @end
 
@@ -25,42 +38,17 @@
 
 @property (weak, nonatomic) User *user;
 
-@property (strong, nonatomic) MCAction *loadAction;
-
-@property (strong, nonatomic) id<UserCourseListActionFactory> actionFactory;
+@property (strong, nonatomic) UserCourseListActionContext *actionContext;
 
 - (void)setWithInfos:(NSArray *)infos;
 
-@end
+- (void)load:(ResultCallback)callback;
 
-
-@interface UserCourseListLoadAction : MCAction
-
-@property (weak, nonatomic) UserCourseList *list;
+- (void)cancelLoad;
 
 @end
 
 
 
-@interface UserCourseListLocalLoadAction : MCAction
 
-@property (weak, nonatomic) UserCourseList *list;
-
-@end
-
-
-
-@interface UserCourseListLocalRemoteLoadAction : MCAction
-
-@property (weak, nonatomic) UserCourseList *list;
-
-@end
-
-
-
-@interface UserCourseListActionFactory : NSObject <UserCourseListActionFactory>
-
-@property (weak, nonatomic) UserCourseList *list;
-
-@end
 

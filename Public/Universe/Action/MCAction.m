@@ -35,7 +35,7 @@
     [self callbackError:error];
 }
 
-- (void)run:(ResultCallback)callback
+- (void)run:(id)context callback:(ResultCallback)callback
 {
     self.callback = callback;
     
@@ -45,3 +45,30 @@
 }
 
 @end
+
+
+@implementation MCActionCreator
+
++ (MCAction *)createAction:(NSString *)actionName
+{
+    if(actionName.length == 0)
+    {
+        abort();
+    }
+    
+    Class myClass = NSClassFromString(actionName);
+    if(myClass)
+    {
+        MCAction *action = [[myClass alloc] init];
+        if([action isKindOfClass:[MCAction class]])
+        {
+            return action;
+        }
+    }
+    
+    abort();
+}
+
+@end
+
+

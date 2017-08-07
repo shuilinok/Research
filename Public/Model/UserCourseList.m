@@ -14,6 +14,8 @@
 
 @property (strong, nonatomic) NSMutableArray *courses;
 
+@property (strong, nonatomic) MCAction *loadAction;
+
 @end
 
 
@@ -30,19 +32,6 @@
     return self;
 }
 
-- (void)setLoadAction:(MCAction *)loadAction
-{
-    if(loadAction == _loadAction)
-    {
-        return;
-    }
-    
-    //把原来的行为取消
-    [_loadAction cancel:800];
-    
-    _loadAction = loadAction;
-}
-
 - (void)setWithInfos:(NSArray *)infos
 {
     [self.courses removeAllObjects];
@@ -56,16 +45,55 @@
     }
 }
 
+- (void)load:(ResultCallback)callback
+{
+    [self.loadAction cancel:800];//把原来的取消
+    
+    self.loadAction = [MCActionCreator createAction:self.actionContext.loadActionName];
+    
+    [self.loadAction run:self.actionContext callback:^(NSError *error) {
+       
+        callback(error);
+    }];
+}
+
+- (void)cancelLoad
+{
+    [self.loadAction cancel:700];
+}
+
+@end
+
+
+@interface UserCourseListLoadAction : MCAction
+
+@end
+
+
+@interface UserCourseListLocalLoadAction : MCAction
+
+@end
+
+
+@interface UserCourseListLocalRemoteLoadAction : MCAction
+
+@end
+
+
+@interface UserCourseListLoadMoreAction : MCAction
+
 @end
 
 
 @implementation UserCourseListLoadAction
 
-- (void)run:(ResultCallback)callback
+- (void)run:(id)context callback:(ResultCallback)callback
 {
     self.callback = callback;
+    UserCourseList *list = context;
     
     //从服务端加载
+    list.actionContext.offset = 0;
     //...
     
     [self callbackError:nil];
@@ -77,11 +105,13 @@
 
 @implementation UserCourseListLocalLoadAction
 
-- (void)run:(ResultCallback)callback
+- (void)run:(id)context callback:(ResultCallback)callback
 {
     self.callback = callback;
+    UserCourseList *list = context;
     
     //从本地加载
+    list.actionContext.offset = 0;
     //...
     
     [self callbackError:nil];
@@ -93,15 +123,17 @@
 
 @implementation UserCourseListLocalRemoteLoadAction
 
-- (void)run:(ResultCallback)callback
+- (void)run:(id)context callback:(ResultCallback)callback
 {
     self.callback = callback;
+    UserCourseList *list = context;
+    
+    list.actionContext.offset = 0;
     
     //先从本地加载
     UserCourseListLocalLoadAction *action = [[UserCourseListLocalLoadAction alloc] init];
-    action.list = self.list;
     
-    [action run:^(NSError *error) {
+    [action run:context callback:^(NSError *error) {
        
         if(self.bCancel)
         {
@@ -110,9 +142,8 @@
         
         //再从服务端加载
         UserCourseListLoadAction *action = [[UserCourseListLoadAction alloc] init];
-        action.list = self.list;
         
-        [action run:^(NSError *error) {
+        [action run:context callback:^(NSError *error) {
             
             [self callbackError:error];
         }];
@@ -122,26 +153,48 @@
 @end
 
 
-@implementation UserCourseListActionFactory
+@implementation UserCourseListLoadMoreAction
 
-- (MCAction *)createLoadAction
+- (void)run:(id)context callback:(ResultCallback)callback
 {
-    UserCourseListLocalRemoteLoadAction *action = [[UserCourseListLocalRemoteLoadAction alloc] init];
+    self.callback = callback;
+    UserCourseList *list = context;
     
-    action.list = self.list;
+    //加载更多
+    NSUInteger offset = list.actionContext.offset;
+    NSUInteger limit = list.actionContext.limit;
     
-    return action;
-}
-
-- (MCAction *)createFreshAction
-{
-    UserCourseListLoadAction *action = [[UserCourseListLoadAction alloc] init];
+    //...
     
-    action.list = self.list;
+    list.actionContext.offset += limit;
     
-    return action;
+    [self callbackError:nil];
 }
 
 @end
 
+
+
+@interface UserCourseListActionContext ()
+
+@end
+
+@implementation UserCourseListActionContext
+
+- (void)changeToReload
+{
+    self.loadActionName = self.reloadActionName;
+}
+
+- (void)changeToFresh
+{
+    self.loadActionName = self.freshActionName;
+}
+
+- (void)changeToMore
+{
+    self.loadActionName = self.moreActionName;
+}
+
+@end
 

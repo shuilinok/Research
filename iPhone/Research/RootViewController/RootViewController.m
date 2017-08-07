@@ -58,9 +58,14 @@
     bController.backCommand = [MCProtocolCommand command:self selector:@selector(BtoAProc:)];
     
     UserCourseList *list = [[UserCourseList alloc] init];
-    UserCourseListActionFactory *factory = [[UserCourseListActionFactory alloc] init];
-    factory.list = list;
-    list.actionFactory = factory;
+    
+    UserCourseListActionContext *actionContext = [[UserCourseListActionContext alloc] init];
+    actionContext.reloadActionName = @"UserCourseListLocalRemoteLoadAction";
+    actionContext.freshActionName = @"UserCourseListLoadAction";
+    actionContext.moreActionName = @"UserCourseListLoadMoreAction";
+    actionContext.offset = 0;
+    actionContext.limit = 8;
+    list.actionContext = actionContext;
     
     bController.list = list;
     

@@ -27,9 +27,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.list.loadAction = [self.list.actionFactory createLoadAction];
+    [self.list.actionContext changeToReload];
     
-    [self.list.loadAction run:^(NSError *error) {
+    [self.list load:^(NSError *error) {
         
         if(error.code == 700)
         {
@@ -37,7 +37,7 @@
         }
         else if(error.code == 800)
         {
-            NSLog(@"更换行为取消");
+            NSLog(@"有新加载时取消");
         }
     }];
     
@@ -65,16 +65,25 @@
 
 - (IBAction)clickFresh:(id)sender
 {
-    self.list.loadAction = [self.list.actionFactory createFreshAction];//更换行为会取消先前的行为
+    [self.list.actionContext changeToFresh];
     
-    [self.list.loadAction run:^(NSError *error) {
+    [self.list load:^(NSError *error) {
+        
+    }];
+}
+
+- (IBAction)clickMore:(id)sender
+{
+    [self.list.actionContext changeToMore];
+    
+    [self.list load:^(NSError *error) {
         
     }];
 }
 
 - (IBAction)clickCancelLoad:(id)sender
 {
-    [self.list.loadAction cancel:700];
+    [self.list cancelLoad];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+//行为抽象，包含：运行，回调，取消
 @interface MCAction : NSObject
 
 //是否取消运行
@@ -17,12 +18,19 @@
 @property (copy, nonatomic) ResultCallback callback;
 
 //运行，子类重写
-- (void)run:(ResultCallback)callback;
+- (void)run:(id)context callback:(ResultCallback)callback;
 
 //取消运行，子类不要重写
 - (void)cancel:(NSUInteger)code;
 
 //运行完后返回，外部不要调用，子类也不要重写
 - (void)callbackError:(NSError *)error;
+
+@end
+
+
+@interface MCActionCreator : NSObject
+
++ (MCAction *)createAction:(NSString *)actionName;
 
 @end
