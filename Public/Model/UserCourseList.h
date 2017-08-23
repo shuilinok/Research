@@ -13,13 +13,9 @@
 
 @interface UserCourseListParamContext : NSObject
 
-@property (strong, nonatomic) NSString *loadActionName;
+@property (assign, nonatomic) NSUInteger loadVersion;//0,1,2...
 
-@property (strong, nonatomic) NSString *reloadActionName;
-
-@property (strong, nonatomic) NSString *freshActionName;
-
-@property (strong, nonatomic) NSString *moreActionName;
+@property (assign, nonatomic) NSUInteger loadMode;//0服务端，1本地，2本地服务端，3更多
 
 @property (assign, nonatomic) NSUInteger offset;
 
@@ -32,7 +28,7 @@
 
 @property (weak, nonatomic) User *user;
 
-@property (strong, nonatomic) UserCourseListParamContext *paramContext;
+@property (readonly, strong, nonatomic) UserCourseListParamContext *paramContext;
 
 - (void)setWithInfos:(NSArray *)infos;
 

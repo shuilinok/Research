@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 //行为抽象，包含：运行，回调，取消
 @interface MCAction : NSObject
 
@@ -28,9 +29,3 @@
 
 @end
 
-
-@interface MCActionCreator : NSObject
-
-+ (MCAction *)createAction:(NSString *)actionName;
-
-@end

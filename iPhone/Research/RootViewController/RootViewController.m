@@ -59,14 +59,11 @@
     
     UserCourseList *list = [[UserCourseList alloc] init];
     
-    UserCourseListParamContext *paramContext = [[UserCourseListParamContext alloc] init];
-    paramContext.reloadActionName = @"UserCourseListLocalRemoteLoadAction";
-    paramContext.freshActionName = @"UserCourseListLoadAction";
-    paramContext.moreActionName = @"UserCourseListLoadMoreAction";
+    UserCourseListParamContext *paramContext = list.paramContext;
+    paramContext.loadVersion = 0;
     paramContext.offset = 0;
     paramContext.limit = 8;
-    list.paramContext = paramContext;
-    
+
     bController.list = list;
     
     [aController.navigationController pushViewController:bController animated:YES];

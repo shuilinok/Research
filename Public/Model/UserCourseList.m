@@ -10,11 +10,87 @@
 #import "User.h"
 
 
+@interface UserCourseListRemoteLoadAction : MCAction
+
+@end
+
+@interface UserCourseListLocalLoadAction : MCAction
+
+@end
+
+
+@interface UserCourseListLocalRemoteLoadAction : MCAction
+
+@end
+
+
+@interface UserCourseListLoadMoreAction : MCAction
+
+@property (assign, nonatomic) NSUInteger offset;
+
+@property (assign, nonatomic) NSUInteger limit;
+
+@end
+
+
+@interface UserCourseListParamContext ()
+
+- (MCAction *)createLoadAction;
+
+@end
+
+@implementation UserCourseListParamContext
+
+- (MCAction *)createLoadAction
+{
+    MCAction *loadAction = nil;
+    
+    if(self.loadVersion == 0)
+    {
+        if(self.loadMode == 0)
+        {
+            loadAction = [[UserCourseListRemoteLoadAction alloc] init];
+        }
+        else if(self.loadMode == 1)
+        {
+            loadAction = [[UserCourseListLocalLoadAction alloc] init];
+        }
+        else if(self.loadMode == 2)
+        {
+            loadAction = [[UserCourseListLocalRemoteLoadAction alloc] init];
+        }
+        else if(self.loadMode == 3)
+        {
+            UserCourseListLoadMoreAction *action = [[UserCourseListLoadMoreAction alloc] init];
+            action.offset = self.offset;
+            action.limit = self.limit;
+            
+            loadAction = action;
+        }
+    }
+    else if(self.loadVersion == 1)
+    {
+        
+    }
+    
+    if(loadAction == nil)
+    {
+        abort();
+    }
+    
+    return loadAction;
+}
+
+@end
+
+
 @interface UserCourseList ()
 
 @property (strong, nonatomic) NSMutableArray *courses;
 
 @property (strong, nonatomic) MCAction *loadAction;
+
+@property (strong, nonatomic) UserCourseListParamContext *paramContext;
 
 @end
 
@@ -27,6 +103,7 @@
     if(self)
     {
         self.courses = [[NSMutableArray alloc] init];
+        self.paramContext = [[UserCourseListParamContext alloc] init];
     }
     
     return self;
@@ -49,7 +126,7 @@
 {
     [self.loadAction cancel:800];//把原来的取消
     
-    self.loadAction = [MCActionCreator createAction:self.paramContext.loadActionName];
+    self.loadAction = [self.paramContext createLoadAction];
     
     [self.loadAction run:self callback:^(NSError *error) {
        
@@ -65,27 +142,9 @@
 @end
 
 
-@interface UserCourseListLoadAction : MCAction
-
-@end
 
 
-@interface UserCourseListLocalLoadAction : MCAction
-
-@end
-
-
-@interface UserCourseListLocalRemoteLoadAction : MCAction
-
-@end
-
-
-@interface UserCourseListLoadMoreAction : MCAction
-
-@end
-
-
-@implementation UserCourseListLoadAction
+@implementation UserCourseListRemoteLoadAction
 
 - (void)run:(id)context callback:(ResultCallback)callback
 {
@@ -141,7 +200,7 @@
         }
         
         //再从服务端加载
-        UserCourseListLoadAction *action = [[UserCourseListLoadAction alloc] init];
+        UserCourseListRemoteLoadAction *action = [[UserCourseListRemoteLoadAction alloc] init];
         
         [action run:context callback:^(NSError *error) {
             
@@ -161,20 +220,18 @@
     UserCourseList *list = context;
     
     //加载更多
-    NSUInteger offset = list.paramContext.offset;
-    NSUInteger limit = list.paramContext.limit;
+    NSUInteger offset = self.offset;
+    NSUInteger limit = self.limit;
     
     //...
     
-    list.paramContext.offset += limit;
+    offset += limit;
+    
+    list.paramContext.offset = offset;
     
     [self callbackError:nil];
 }
 
 @end
 
-
-@implementation UserCourseListParamContext
-
-@end
 

@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
     
     UserCourseListParamContext *paramContext = self.list.paramContext;
-    paramContext.loadActionName = paramContext.reloadActionName;
+    paramContext.loadMode = 2;
     
     [self.list load:^(NSError *error) {
         
@@ -67,7 +67,7 @@
 - (IBAction)clickFresh:(id)sender
 {
     UserCourseListParamContext *paramContext = self.list.paramContext;
-    paramContext.loadActionName = paramContext.freshActionName;
+    paramContext.loadMode = 0;
     
     [self.list load:^(NSError *error) {
         
@@ -77,7 +77,7 @@
 - (IBAction)clickMore:(id)sender
 {
     UserCourseListParamContext *paramContext = self.list.paramContext;
-    paramContext.loadActionName = paramContext.moreActionName;
+    paramContext.loadMode = 3;
     
     [self.list load:^(NSError *error) {
         
