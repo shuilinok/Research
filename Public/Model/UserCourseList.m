@@ -33,53 +33,7 @@
 @end
 
 
-@interface UserCourseListParamContext ()
-
-- (MCAction *)createLoadAction;
-
-@end
-
 @implementation UserCourseListParamContext
-
-- (MCAction *)createLoadAction
-{
-    MCAction *loadAction = nil;
-    
-    if(self.loadVersion == 0)
-    {
-        if(self.loadMode == 0)
-        {
-            loadAction = [[UserCourseListRemoteLoadAction alloc] init];
-        }
-        else if(self.loadMode == 1)
-        {
-            loadAction = [[UserCourseListLocalLoadAction alloc] init];
-        }
-        else if(self.loadMode == 2)
-        {
-            loadAction = [[UserCourseListLocalRemoteLoadAction alloc] init];
-        }
-        else if(self.loadMode == 3)
-        {
-            UserCourseListLoadMoreAction *action = [[UserCourseListLoadMoreAction alloc] init];
-            action.offset = self.offset;
-            action.limit = self.limit;
-            
-            loadAction = action;
-        }
-    }
-    else if(self.loadVersion == 1)
-    {
-        
-    }
-    
-    if(loadAction == nil)
-    {
-        abort();
-    }
-    
-    return loadAction;
-}
 
 @end
 
@@ -126,7 +80,42 @@
 {
     [self.loadAction cancel:800];//把原来的取消
     
-    self.loadAction = [self.paramContext createLoadAction];
+    MCAction *loadAction = nil;
+    
+    if(self.paramContext.loadVersion == 0)
+    {
+        if(self.paramContext.loadMode == 0)
+        {
+            loadAction = [[UserCourseListRemoteLoadAction alloc] init];
+        }
+        else if(self.paramContext.loadMode == 1)
+        {
+            loadAction = [[UserCourseListLocalLoadAction alloc] init];
+        }
+        else if(self.paramContext.loadMode == 2)
+        {
+            loadAction = [[UserCourseListLocalRemoteLoadAction alloc] init];
+        }
+        else if(self.paramContext.loadMode == 3)
+        {
+            UserCourseListLoadMoreAction *action = [[UserCourseListLoadMoreAction alloc] init];
+            action.offset = self.paramContext.offset;
+            action.limit = self.paramContext.limit;
+            
+            loadAction = action;
+        }
+    }
+    else if(self.paramContext.loadVersion == 1)
+    {
+        
+    }
+    
+    if(loadAction == nil)
+    {
+        abort();
+    }
+    
+    self.loadAction = loadAction;
     
     [self.loadAction run:self callback:^(NSError *error) {
        
